@@ -2,18 +2,69 @@
   "tools": [
       {
           "id": 1,
-          "title": "Product 1",
-          "description": "Description 1"
+          "name": "Product 1",
+          "description": "Description 1",
+          "commnets": [
+            {
+              "id": 1,
+              "review": 3.5,
+              "comment": "comment1"
+            },
+            {
+              "id": 2,
+              "review": 5,
+              "comment": "comment2"
+            },
+            {
+              "id": 3,
+              "review": 1,
+              "comment": "comment3"
+            }
+          ]
       },
       {
           "id": 2,
-          "title": "Product 2",
-          "description": "Description 2"
+          "name": "Product 2",
+          "description": "Description 2",
+          "commnets": [
+            {
+              "id": 1,
+              "review": 3.5,
+              "comment": "comment1"
+            },
+            {
+              "id": 2,
+              "review": 5,
+              "comment": "comment2"
+            },
+            {
+              "id": 3,
+              "review": 1,
+              "comment": "comment3"
+            }
+          ]
       },
       {
           "id": 3,
-          "title": "Product 3",
-          "description": "Description 3"
+          "name": "Product 3",
+          "description": "Description 3",
+          "commnets": [
+            {
+              "id": 1,
+              "review": 3.5,
+              "comment": "comment1"
+            },
+            {
+              "id": 2,
+              "review": 5,
+              "comment": "comment2"
+            },
+            {
+              "id": 3,
+              "review": 1,
+              "comment": "comment3"
+            }
+          ]
       }
   ]
 }

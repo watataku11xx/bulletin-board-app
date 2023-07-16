@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 function ToolList({tools}){
     return(
         <>
@@ -5,9 +7,10 @@ function ToolList({tools}){
             {
                 tools.map((tool) => {
                     return(
-                        <div>
-                                <h2>{tool.title}</h2>
-                            <hr/>
+                        <div key={tool.id}>
+                            <Link href={`/tools/${tool.id}`} passHref>
+                                <h2>{tool.id} {tool.name}</h2>
+                            </Link>
                         </div>
                     )
                 })
@@ -18,7 +21,7 @@ function ToolList({tools}){
 
 export default ToolList;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const res = await fetch('http://localhost:4000/tools');
     const data = await res.json();
 
