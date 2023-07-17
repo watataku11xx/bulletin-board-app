@@ -2,23 +2,23 @@
   "tools": [
       {
           "id": 1,
-          "name": "Product 1",
+          "name": "chat GPT",
           "description": "Description 1",
-          "commnets": [
+          "comments": [
             {
               "id": 1,
               "review": 3.5,
-              "comment": "comment1"
+              "comment": "3.5はレスポンスが遅いです。"
             },
             {
               "id": 2,
               "review": 5,
-              "comment": "comment2"
+              "comment": "3.5はレスポンスが遅いです。"
             },
             {
               "id": 3,
               "review": 1,
-              "comment": "comment3"
+              "comment": "3.5はレスポンスが遅いです。"
             }
           ]
       },
@@ -26,7 +26,7 @@
           "id": 2,
           "name": "Product 2",
           "description": "Description 2",
-          "commnets": [
+          "comments": [
             {
               "id": 1,
               "review": 3.5,
@@ -48,7 +48,7 @@
           "id": 3,
           "name": "Product 3",
           "description": "Description 3",
-          "commnets": [
+          "comments": [
             {
               "id": 1,
               "review": 3.5,

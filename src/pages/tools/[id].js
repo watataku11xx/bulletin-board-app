@@ -2,7 +2,20 @@ function Id({tool}){
     return(
         <>
             <h2>{tool.name}</h2>
-            
+            <h3>description</h3>
+            <p>{tool.description}</p>
+            {tool.comments.map((comment) => {
+                return(
+                    <>
+                        <div>
+                            id:{comment.id} review:{comment.review}
+                        </div>
+                        <div>
+                            {comment.comment}
+                        </div>
+                    </>
+                )
+            })}
         </>
     );
 }
@@ -15,7 +28,6 @@ export async function getServerSideProps(context) {
         `http://localhost:4000/tools/${params.id}`
     )
     const data = await res.json();
-    console.log(data);
     return {
         props:{
             tool:data,
