@@ -1,3 +1,4 @@
+import PostComment from "../../../components/PostComment";
 function Id({tool}){
     return(
         <>
@@ -16,6 +17,7 @@ function Id({tool}){
                     </>
                 )
             })}
+            <PostComment />
         </>
     );
 }
