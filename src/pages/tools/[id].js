@@ -2,7 +2,7 @@ import PostComment from "../../../components/PostComment";
 function Id({tool}){
     return(
         <>
-            <h2>{tool.name}</h2>
+            {/* <h2>{tool.name}</h2>
             <h3>description</h3>
             <p>{tool.description}</p>
             {tool.comments.map((comment) => {
@@ -16,7 +16,8 @@ function Id({tool}){
                         </div>
                     </>
                 )
-            })}
+            })} */}
+            
             <PostComment />
         </>
     );
@@ -25,10 +26,11 @@ function Id({tool}){
 export default Id;
 
 export async function getServerSideProps(context) {
-    const { params } = context;
-    const res = await fetch(
-        `http://localhost:4000/tools/${params.id}`
-    )
+    // const { params } = context;
+    // const res = await fetch(
+    //     `http://localhost:4000/tools/${params.id}`
+    // )
+    const res = await fetch('/api/data');
     const data = await res.json();
     return {
         props:{
