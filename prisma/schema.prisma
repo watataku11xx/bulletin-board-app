@@ -10,6 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//ユーザ認証（nextauth.js)
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String
@@ -45,6 +47,10 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  registrasion_date DateTime @default(now())
+  post          Post[]
+  comment       Comment[]
+  role    Role     @default(USER)
 }
 
 model VerificationToken {
@@ -53,4 +59,48 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+//掲示板機能
+
+model Post {
+  post_id    Int       @id @default(autoincrement())
+  user_id    String
+  title      String
+  content    String
+  post_date  DateTime
+  user       User     @relation(fields: [user_id], references: [id])
+  Comment   Comment[]
+  categories CategoriesOnPosts[]
+}
+
+model Comment {
+  comment_id      Int       @id @default(autoincrement())
+  user_id         String
+  post_id         Int
+  comment_content String
+  comment_date    DateTime
+  user            User     @relation(fields: [user_id], references: [id])
+  post            Post     @relation(fields: [post_id], references: [post_id])
+}
+
+model Category {
+  category_id    Int     @id @default(autoincrement())
+  categoryname   String
+  posts CategoriesOnPosts[]
+}
+
+model CategoriesOnPosts {
+  post       Post     @relation(fields: [post_id], references: [post_id])
+  post_id     Int
+  category   Category @relation(fields: [category_id], references: [category_id])
+  category_id Int
+  category_date DateTime @default(now())
+  @@id([post_id, category_id])
+}
+
+//ロール追加
+enum Role {
+  USER
+  ADMIN
 }
