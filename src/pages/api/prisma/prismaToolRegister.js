@@ -1,3 +1,5 @@
+import { use } from 'react';
+
 const { PrismaClient } = require('@prisma/client');
 
 // PrismaClientのインスタンスを作成します
@@ -9,39 +11,57 @@ export default function handler(req, res) {
   }
 
   const formData = req.body; // リクエストボディからフォームのデータを取得
-//   console.log('server side recieve data: ', formData)
-    console.log(formData);
-    // createPost('userIdHere', 'タイトル', 'コンテンツ').then((createdPost) => {
-    //   console.log('Created Post:', createdPost);
-    // }).catch((error) => {
-    //   console.error('Error creating post:', error);
-    // });
+  console.log(formData);
+  // Create post
+  createPost(formData.toolName, formData.toolOverView, formData.sessionEmail).then((createdPost) => {
+    console.log('Created Post:', createdPost);
+  }).catch((error) => {
+    console.error('Error creating post:', error);
+  });
+  
   res.status(200).json({ message: 'フォームのデータを受け取りました！' });
 }
 
 
-// 新しいPostを作成します
-async function createPost(userId, title, content) {
+// 新しいPostを作成
+async function createPost( title, content, email) {
   try {
-    // Prismaのcreateメソッドを使用してPostを作成します
+    //Search User
+    const userId = await searchUser(email)
+    console.log('Search UserId:', userId);
+    //Create post
     const newPost = await prisma.post.create({
       data: {
-        user: { connect: { id: userId } }, // userIdに対応するUserを関連付けます
+        user: { connect: { id: userId } }, 
         title,
         content,
+        //schema.prismaでpost_dateをデフォルトで設定しているのに、なぜか必須
+        post_date: new Date(),
       },
     });
 
-    // 作成されたPostを返します
     return newPost;
   } catch (error) {
-    // エラー処理
     console.error('Error creating post:', error);
     throw error;
   } finally {
-    // Prisma Clientの接続を解放します
     await prisma.$disconnect();
   }
 }
 
-// 新しいPostを作成します
+//emailからuserレコードの取得
+async function searchUser(email){
+  try {
+    const selectUser = await prisma.user.findUnique({
+      where: {
+        email: email
+      }
+    })
+    return selectUser.id;
+  } catch (error) {
+    console.error('Error selecting user:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
