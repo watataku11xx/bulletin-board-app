@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
-export default function Home() {
+export default function Home({data}) {
+  console.log(data);
   return (
     <>
       <Head>
@@ -11,9 +12,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Link href={"http://localhost:3000/tools"}>
+      <Link href={"/tools/toolList"}>
         tools List
       </Link>
+      {/* <p>
+        { data.id }
+      </p> */}
     </>
   )
 }

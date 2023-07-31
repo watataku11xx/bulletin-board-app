@@ -4,7 +4,7 @@ function ToolList({tools}){
     return(
         <>
            <h1>List of Tools</h1> 
-            {
+            {/* {
                 tools.map((tool) => {
                     return(
                         <div key={tool.id}>
@@ -14,20 +14,19 @@ function ToolList({tools}){
                         </div>
                     )
                 })
-            }
+            } */}
+            <Link href={"./toolRegister"}>新しいツールを投稿する</Link>
         </>
     )
 }
 
 export default ToolList;
 
-export async function getServerSideProps() {
-    const res = await fetch('http://localhost:4000/tools');
+export async function getServerSideProps(context) {
+    const res = await fetch('http://localhost:3000/api/prisma/prisma');
     const data = await res.json();
-
+    console.log(data);
     return {
-        props:{
-            tools:data,
-        },
+        props: {data},
     }
 }

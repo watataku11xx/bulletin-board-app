@@ -1,5 +1,8 @@
 import PostComment from "../../../components/PostComment";
+import { useSession, signIn, signOut } from 'next-auth/react';
 function Id({tool}){
+
+  const { data: session } = useSession();
     return(
         <>
             {/* <h2>{tool.name}</h2>
@@ -17,8 +20,19 @@ function Id({tool}){
                     </>
                 )
             })} */}
+            {
+                session && (
+                    <PostComment />
+                )
+            }
+            {
+                !session && (
+                    <div>
+                        <p>ログインでコメント投稿出来ます。</p>
+                    </div>
+                ) 
+            }
             
-            <PostComment />
         </>
     );
 }
@@ -26,15 +40,10 @@ function Id({tool}){
 export default Id;
 
 export async function getServerSideProps(context) {
-    // const { params } = context;
-    // const res = await fetch(
-    //     `http://localhost:4000/tools/${params.id}`
-    // )
-    const res = await fetch('/api/data');
+    const res = await fetch('http://localhost:3000/api/prisma/prisma');
     const data = await res.json();
+    console.log(data);
     return {
-        props:{
-            tool:data,
-        },
+        props: {data},
     }
 }

@@ -68,7 +68,7 @@ model Post {
   user_id    String
   title      String
   content    String
-  post_date  DateTime
+  post_date  DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   Comment   Comment[]
   categories CategoriesOnPosts[]
