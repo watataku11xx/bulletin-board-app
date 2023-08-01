@@ -1,8 +1,5 @@
-import { use } from 'react';
-
 const { PrismaClient } = require('@prisma/client');
 
-// PrismaClientのインスタンスを作成します
 const prisma = new PrismaClient();
 
 export default function handler(req, res) {
@@ -10,8 +7,7 @@ export default function handler(req, res) {
     return res.status(405).end(); // メソッドがPOST以外の場合はエラーを返す
   }
 
-  const formData = req.body; // リクエストボディからフォームのデータを取得
-  console.log(formData);
+  const formData = req.body;  
   // Create post
   createPost(formData.toolName, formData.toolOverView, formData.sessionEmail).then((createdPost) => {
     console.log('Created Post:', createdPost);
@@ -28,7 +24,6 @@ async function createPost( title, content, email) {
   try {
     //Search User
     const userId = await searchUser(email)
-    console.log('Search UserId:', userId);
     //Create post
     const newPost = await prisma.post.create({
       data: {
