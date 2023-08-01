@@ -3,17 +3,32 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 export default function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).end(); // メソッドがPOST以外の場合はエラーを返す
-  }
 
-  const formData = req.body;  
-  // Create post
-  createPost(formData.toolName, formData.toolOverView, formData.sessionEmail).then((createdPost) => {
-    console.log('Created Post:', createdPost);
-  }).catch((error) => {
-    console.error('Error creating post:', error);
-  });
+    const { id } = req.query;
+    //searchPostにはダミーで1を代入している。
+    searchPost(parseInt(id)).then((post) => {
+        res.status(200).json(post);
+    }).catch(() => {
+        console.error('Error searching post:', error);
+    });
+  //search post
   
-  res.status(200).json({ message: 'フォームのデータを受け取りました！' });
+//   res.status(200).json({ message: 'Post_Idを受け取りました。' });
+}
+
+//post_idからpostレコードを取得
+async function searchPost(post_id){
+    try {
+        const selectPost = await prisma.post.findUnique({
+        where: {
+            post_id: post_id
+        }
+        })
+        return selectPost;
+    } catch (error) {
+        console.error('Error searching post:', error);
+        throw error;
+    } finally {
+        await prisma.$disconnect();
+    }
 }

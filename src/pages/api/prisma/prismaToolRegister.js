@@ -23,7 +23,7 @@ export default function handler(req, res) {
 async function createPost( title, content, email) {
   try {
     //Search User
-    const userId = await searchUser(email)
+    const userId = await searchUser(email);
     //Create post
     const newPost = await prisma.post.create({
       data: {

@@ -1,35 +1,26 @@
-import PostComment from "../../../components/PostComment";
-import { useSession, signIn, signOut } from 'next-auth/react';
+import PostComment  from '@components/PostComment'
+import NotLoginPage  from '@components/NotLoginPage'
+import { useSession } from 'next-auth/react';
 function Id({tool}){
 
   const { data: session } = useSession();
     return(
         <>
-            {/* <h2>{tool.name}</h2>
-            <h3>description</h3>
-            <p>{tool.description}</p>
-            {tool.comments.map((comment) => {
-                return(
-                    <>
-                        <div>
-                            id:{comment.id} review:{comment.review}
-                        </div>
-                        <div>
-                            {comment.comment}
-                        </div>
-                    </>
-                )
-            })} */}
             {
                 session && (
-                    <PostComment />
+                    <>
+                        <h2>{tool.title}</h2>
+                        <p>{tool.content}</p>
+                        <p>{tool.post_date}</p>
+                        <PostComment />
+                    </>
                 )
             }
             {
                 !session && (
-                    <div>
-                        <p>ログインでコメント投稿出来ます。</p>
-                    </div>
+                    <>
+                        <NotLoginPage />
+                    </>
                 ) 
             }
             
@@ -40,10 +31,13 @@ function Id({tool}){
 export default Id;
 
 export async function getServerSideProps(context) {
-    const res = await fetch('http://localhost:3000/api/prisma/prisma');
+    const { id } = context.query;
+    const res = await fetch(`http://localhost:3000/api/prisma/prismaToolDisplay?id=${id}`)
     const data = await res.json();
     console.log(data);
     return {
-        props: {data},
+        props:{
+            tool:data,
+        },
     }
 }
