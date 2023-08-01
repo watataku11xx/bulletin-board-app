@@ -8,9 +8,9 @@ export default function handler(req, res) {
   }
 
   const formData = req.body;
-  // Create post
-  createPost(formData.toolName, formData.toolOverView, formData.sessionEmail).then((createdPost) => {
-    console.log('Created Post:', createdPost);
+  // Create Comment 
+  createComment(formData.post_id, formData.comment, formData.value, formData.sessionEmail).then((createdComment) => {
+    console.log('Created Comment:', createdComment);
   }).catch((error) => {
     console.error('Error creating post:', error);
   });
@@ -19,23 +19,30 @@ export default function handler(req, res) {
 }
 
 
-// 新しいPostを作成
-async function createPost( title, content, email) {
+// 新しいCommentを作成
+async function createComment( post_id, comment_content, commentStringValue, email) {
   try {
     //Search User
     const userId = await searchUser(email);
-    //Create post
-    const newPost = await prisma.post.create({
+    
+    const postIntId = parseInt(post_id);
+    const comment_value = parseInt(commentStringValue);
+    
+    //Create Comment
+    const newComment = await prisma.comment.create({
       data: {
         user: { connect: { id: userId } }, 
-        title,
-        content,
+        post: { connect: { post_id: postIntId}},
+        comment_content,
+        comment_value,
         //schema.prismaでpost_dateをデフォルトで設定しているのに、なぜか必須
-        post_date: new Date(),
+        // comment_date: new Date(),
       },
     });
 
-    return newPost;
+    // console.log('createComment : ' , newComment);
+
+    return newComment;
   } catch (error) {
     console.error('Error creating post:', error);
     throw error;

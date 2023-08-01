@@ -79,7 +79,8 @@ model Comment {
   user_id         String
   post_id         Int
   comment_content String
-  comment_date    DateTime
+  comment_value   Int
+  comment_date    DateTime @default(now())
   user            User     @relation(fields: [user_id], references: [id])
   post            Post     @relation(fields: [post_id], references: [post_id])
 }
