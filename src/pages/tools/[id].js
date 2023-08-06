@@ -1,7 +1,7 @@
 import PostComment  from '@components/PostComment'
 import NotLoginPage  from '@components/NotLoginPage'
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+
 function Id({tool, comment, post_id}){
 
   const { data: session } = useSession();
@@ -47,7 +47,6 @@ export async function getServerSideProps(context) {
     //fetch comment data
     const commentRes = await fetch(`http://localhost:3000/api/prisma/prismaCommentDisplay?id=${id}`)
     const commentData = await commentRes.json();
-    console.log(commentData);
     return {
         props:{
             tool:postData,

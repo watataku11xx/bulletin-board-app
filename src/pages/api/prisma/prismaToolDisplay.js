@@ -8,7 +8,7 @@ export default function handler(req, res) {
     const { id } = req.query;
     searchPost(parseInt(id)).then((post) => {
         res.status(200).json(post);
-    }).catch(() => {
+    }).catch((error) => {
         console.error('Error searching post:', error);
     });
 }
