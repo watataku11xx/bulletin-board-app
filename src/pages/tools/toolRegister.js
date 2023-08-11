@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import NotLoginPage from '@components/NotLoginPage';
 
-const toolRegister = () => {
+const toolRegister = ({ categories} ) => {
 
     //セッションのEmailで投稿者を決定
   // sessionには、以下のような値が入っています。
@@ -14,23 +14,25 @@ const toolRegister = () => {
   //     },
   //     "expires":"2023-04-01T00:29:51.016Z"
   // }
+
   const { data: session } = useSession();
     
   const [formData, setFormData] = useState({
     toolName: '',
     toolOverView: '',
     sessionEmail: '',
+    selectedCategories: [],
   });
 
-    //useEffectを使用して、sessionが入力された後にセットする。
-    useEffect(() => {
-        if (session) {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            sessionEmail: session.user.email, // セッションがある場合はメールアドレスをセット
-        }));
-        }
-    }, [session]);
+  //useEffectを使用して、sessionが入力された後にセットする。
+  useEffect(() => {
+      if (session) {
+      setFormData((prevFormData) => ({
+          ...prevFormData,
+          sessionEmail: session.user.email, // セッションがある場合はメールアドレスをセット
+      }));
+      }
+  }, [session]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,6 +62,17 @@ const toolRegister = () => {
     }
   };
 
+  const handleCheckboxChange = (category) => {
+    const updatedSelectedCategories = formData.selectedCategories.includes(category)
+      ? formData.selectedCategories.filter((cat) => cat !== category)
+      : [...formData.selectedCategories, category];
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      selectedCategories: updatedSelectedCategories,
+    }));
+  };
+
   return (
     <>
         <h2>ツールの登録</h2>
@@ -67,16 +80,33 @@ const toolRegister = () => {
             session && (
                 <form onSubmit={handleSubmit}>
                 <div>
-                    <label>
+                  <label>
                     ツール名:
-                    <input type="text" name="toolName" value={formData.name} onChange={handleChange} />
-                    </label>
+                    <input type="text" name="toolName" value={formData.name} onChange={handleChange} required/>
+                  </label>
                 </div>
                 <div>
-                    <label>
+                  <label>
                     ツール概要:
-                    <textarea name="toolOverView" value={formData.message} onChange={handleChange} />
-                    </label>
+                    <textarea name="toolOverView" value={formData.message} onChange={handleChange} required/>
+                  </label>
+                </div>
+                <div>
+                  {
+                    categories.map(
+                      (category) => (
+                        <label key={category.category_id}>
+                          <input
+                            type="checkbox"
+                            value={category.category_id}
+                            checked={formData.selectedCategories.includes(category.category_id)}
+                            onChange={() => handleCheckboxChange(category.category_id)}
+                          />
+                          {category.categoryname}
+                        </label>
+                      )
+                    )
+                  }
                 </div>
                 <button type="submit">登録</button>
                 </form>
@@ -94,3 +124,14 @@ const toolRegister = () => {
 };
 
 export default toolRegister;
+
+
+export async function getServerSideProps(){
+  const res = await fetch(`http://localhost:3000/api/prisma/prismaCategoryDisplay`);
+  const data = await res.json();
+  return{
+    props: {
+      categories : data,
+    },
+  };
+}

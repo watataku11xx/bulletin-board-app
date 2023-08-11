@@ -8,8 +8,9 @@ export default function handler(req, res) {
   }
 
   const formData = req.body;
+
   // Create post
-  createPost(formData.toolName, formData.toolOverView, formData.sessionEmail).then((createdPost) => {
+  createPost(formData.toolName, formData.toolOverView, formData.sessionEmail, formData.selectedCategories).then((createdPost) => {
     console.log('Created Post:', createdPost);
   }).catch((error) => {
     console.error('Error creating post:', error);
@@ -20,11 +21,12 @@ export default function handler(req, res) {
 
 
 // 新しいPostを作成
-async function createPost( title, content, email) {
+async function createPost( title, content, email, categories) {
   try {
     //Search User
     const userId = await searchUser(email);
-    //Create post
+
+    // Create post
     const newPost = await prisma.post.create({
       data: {
         user: { connect: { id: userId } }, 
@@ -32,6 +34,16 @@ async function createPost( title, content, email) {
         content,
         //schema.prismaでpost_dateをデフォルトで設定しているのに、なぜか必須
         post_date: new Date(),
+        categories: {
+          create: 
+            categories.map(categoryId => ({
+              category: {
+                connect:{
+                  category_id : categoryId,
+                }
+              }
+            })),
+        },
       },
     });
 
