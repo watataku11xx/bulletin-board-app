@@ -13,7 +13,7 @@ export default function handler(req, res) {
     });
 }
 
-//post_idからpostレコードを取得
+//post_idからpostレコードを取得, カテゴリーの取得
 async function searchPost(post_id){
     try {
         const selectPost = await prisma.post.findUnique({
@@ -28,14 +28,9 @@ async function searchPost(post_id){
                 },
             },
         });
-        
-        // for(let i = 0; i < selectPost.categories.length; i++){
-        //     console.log(selectPost.categories[i].category.categoryname);
-        // }
 
         const categoryNames = selectPost.categories.map(category => category.category.categoryname);
 
-        // return selectPost;
         return {
             post: selectPost,
             categoryNames: categoryNames,

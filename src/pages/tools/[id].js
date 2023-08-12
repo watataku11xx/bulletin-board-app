@@ -16,15 +16,16 @@ console.log(tool);
                         <h2>{tool.post.title}</h2>
                         <p>{tool.post.content}</p>
                         <p>{tool.post.post_date}</p>
-                        <h3>Category</h3>
-                        {tool.categoryNames.map((category) => (
-                            <span>{category}</span>
+                        {tool.categoryNames.map((category, index) => (
+                            <div key={index}>
+                                <span>{category}</span>
+                            </div>
                         ))}
                         <PostComment propValue={post_id}/>
                         {comment.map((commentItem, index) => (
                             <div key={index}>
-                                <p>Comment {index + 1} Value: {commentItem.comment_value}</p>
-                                <p>Comment {index + 1} Content: {commentItem.comment_content}</p>
+                                <p>評価: {commentItem.comment_value}</p>
+                                <p>コメント: {commentItem.comment_content}</p>
                             </div>
                         ))}
                     </>
