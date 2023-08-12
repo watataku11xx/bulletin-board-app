@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react';
 
 function Id({tool, comment, post_id}){
 
+console.log(tool);
+
   const { data: session } = useSession();
   
     return(
@@ -11,9 +13,13 @@ function Id({tool, comment, post_id}){
             {
                 session && (
                     <>
-                        <h2>{tool.title}</h2>
-                        <p>{tool.content}</p>
-                        <p>{tool.post_date}</p>
+                        <h2>{tool.post.title}</h2>
+                        <p>{tool.post.content}</p>
+                        <p>{tool.post.post_date}</p>
+                        <h3>Category</h3>
+                        {tool.categoryNames.map((category) => (
+                            <span>{category}</span>
+                        ))}
                         <PostComment propValue={post_id}/>
                         {comment.map((commentItem, index) => (
                             <div key={index}>
