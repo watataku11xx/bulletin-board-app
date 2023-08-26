@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { TextField, Button, FormControl, FormHelperText, FormLabel, RadioGroup, FormControlLabel, Radio} from '@mui/material';
 
@@ -11,6 +12,13 @@ const PostComment = ({propValue}) => {
   });
 
   const { data: session } = useSession();
+  
+  //リロード機能の追加
+  const router = useRouter();
+
+  const handleReload = () => {
+      router.reload();
+  };
   
   //useEffectを使用して、sessionが入力された後にセットする。
   useEffect(() => {
@@ -108,7 +116,7 @@ const PostComment = ({propValue}) => {
         {errors.comment && <FormHelperText>コメントを入力してください</FormHelperText>}
       </FormControl>
 
-      <Button type="submit" variant="contained" color="primary">
+      <Button type="submit" variant="contained" color="primary" onClick={handleReload}>
         送信
       </Button>
     </form>

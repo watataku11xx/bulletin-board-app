@@ -3,6 +3,7 @@ import NotLoginPage  from '@components/NotLoginPage'
 import { useSession } from 'next-auth/react';
 import { Container, Box, Button} from '@mui/material';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 function Id({tool, comment, post_id}){
     const [isToggled, setIsToggled] = useState(false);
@@ -10,7 +11,10 @@ function Id({tool, comment, post_id}){
         setIsToggled((prev) => !prev);
     };
 
+
     const { data: session } = useSession();
+
+    //日付をフォーマット化
     const originalDateString = tool.post.post_date;
     const date = new Date(originalDateString);
     const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
