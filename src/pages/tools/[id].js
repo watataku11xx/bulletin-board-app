@@ -3,7 +3,6 @@ import NotLoginPage  from '@components/NotLoginPage'
 import { useSession } from 'next-auth/react';
 import { Container, Box, Button} from '@mui/material';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 
 function Id({tool, comment, post_id}){
     const [isToggled, setIsToggled] = useState(false);
