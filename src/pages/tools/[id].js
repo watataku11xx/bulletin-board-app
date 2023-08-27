@@ -6,11 +6,6 @@ import { useState } from 'react';
 import DisplayComment from '@components/DisplayComment';
 
 function Id({tool, comment, post_id}){
-    const [isToggled, setIsToggled] = useState(false);
-    const handleToggle = () => {
-        setIsToggled((prev) => !prev);
-    };
-
 
     const { data: session } = useSession();
 
@@ -38,14 +33,9 @@ function Id({tool, comment, post_id}){
                                         <span>{category}</span>
                                     </div>
                                 ))}
-                                {
-                                    isToggled && (
-                                        <Box sx={{
-                                        }}>
-                                            <PostComment propValue={post_id}/>
-                                        </Box>
-                                    )
-                                }
+                                <Box>
+                                    <PostComment propValue={post_id}/>
+                                </Box>
                                 {comment.map((commentItem, index) => (
                                     <Box sx={{
                                         padding: 1,
@@ -57,15 +47,6 @@ function Id({tool, comment, post_id}){
                                 ))}
                             </Box>
                         </Container>
-                        { !isToggled && (
-                            <Button sx={{
-
-                            }}
-                                onClick={handleToggle}
-                            >
-                                コメント追加
-                            </Button>
-                        )}
                     </>
                 )
             }
