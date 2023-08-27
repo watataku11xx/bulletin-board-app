@@ -3,6 +3,7 @@ import NotLoginPage  from '@components/NotLoginPage'
 import { useSession } from 'next-auth/react';
 import { Container, Box, Button} from '@mui/material';
 import { useState } from 'react';
+import DisplayComment from '@components/DisplayComment';
 
 function Id({tool, comment, post_id}){
     const [isToggled, setIsToggled] = useState(false);
@@ -52,11 +53,7 @@ function Id({tool, comment, post_id}){
                                         borderRadius: 2,
                                         margin: 1,
                                     }}>
-                                        <div key={index}>
-                                            <p>評価: {commentItem.comment_value}</p>
-                                            <p>コメント: {commentItem.comment_content}</p>
-                                        </div>
-                                    </Box>
+                                        <DisplayComment commentItem={commentItem} index={index}/>                                    </Box>
                                 ))}
                             </Box>
                         </Container>
